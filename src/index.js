@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import Loading from './components/Loading';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
+import './index.css';
+
+// emulating page lazy load times for fun
+const Main = React.lazy(() => new Promise((resolve) => setTimeout(() => resolve(import('./pages/Main')), 1000)));
+const Success = React.lazy(() => new Promise((resolve) => setTimeout(() => resolve(import('./pages/Success')), 1000)));
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Suspense fallback={<Loading />}>
+      <Router>
+        <Route exact path="/" component={Main} />
+        <Route path="/success" component={Success} />
+      </Router>
+    </Suspense>
   </React.StrictMode>,
   document.getElementById('root')
 );
