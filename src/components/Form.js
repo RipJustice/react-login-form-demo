@@ -5,17 +5,28 @@ import { Button } from 'primereact/button';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
+const inputWidth = css`
+    input {
+        width: 100%;
+    }
+ 
+`
+
+const topPad = css`
+    padding-top: 20px;
+`
+
 const FormTitle = () => {
     return <h1>User Registration Form</h1>;
 }  
 
-const Submit = (props) => {
-    return <Button label="Submit" />;
+const Submit = () => {
+    return (
+        <div css={topPad}>
+            <Button label="Submit" />
+        </div>
+    );
 }
-
-const minWidth = css`
-  min-width: 216px;
-`
 
 class UserForm extends React.Component {
     constructor(props) {
@@ -25,10 +36,16 @@ class UserForm extends React.Component {
             firstName: '',
             lastName: '',
             email: '',
-            password: ''
+            password: '',
+            fname: false,
+            lname: false,
+            eMail: false,
+            pword: false,        
         };
 
         this.setVal = this.setVal.bind(this);
+        this.formSubmit = this.formSubmit.bind(this);
+        this.checkVal = this.checkVal.bind(this);
     }
 
     setVal(e) {       
@@ -36,31 +53,40 @@ class UserForm extends React.Component {
             [e.target.name]: e.target.value
         });       
     }
+
+    checkVal(e) {      
+        e.target.value === '' ? this.setState({[e.target.id]: true}) : this.setState({[e.target.id]: false});        
+    }
+
+    formSubmit(e) {
+        console.log(this.state);
+        e.preventDefault();
+    }
     
     render() {
-        return (
-            <div>
-                <form className="Form"> 
-                    <FormTitle />
-                    <div className="p-field"> 
-                        <label htmlFor="fname" className="p-d-block">First Name</label>
-                        <InputText id="fname" css={minWidth} name='firstName' value={this.state.firstName} onChange={this.setVal} />
-                    </div>
-                    <div className="p-field"> 
-                        <label htmlFor="lname" className="p-d-block">Last Name</label>
-                        <InputText id="lname" css={minWidth} name='lastName' value={this.state.lastName} onChange={this.setVal} />
-                    </div>
-                    <div className="p-field"> 
-                        <label htmlFor="eMail" className="p-d-block">Email</label>
-                        <InputText id="eMail" css={minWidth} name='email' value={this.state.email} onChange={this.setVal} />
-                    </div>
-                    <div className="p-field"> 
-                        <label htmlFor="pword" className="p-d-block">Password</label>
-                        <Password id="pword" name='password' value={this.state.password} onChange={this.setVal} toggleMask/>
-                    </div>
+        return (           
+            <form className="Form" onSubmit={this.formSubmit}> 
+                <FormTitle />
+                <div className="p-field p-grid p-dir-col"> 
+                    <label htmlFor="fname" className="p-d-block">First Name</label>
+                    <InputText id="fname" className={this.state.fname ? 'p-invalid' : ''} name='firstName' value={this.state.firstName}  onChange={this.setVal} onBlur={this.checkVal}/>
+                </div>
+                <div className="p-field p-grid p-dir-col"> 
+                    <label htmlFor="lname" className="p-d-block">Last Name</label>
+                    <InputText id="lname" className={this.state.lname ? 'p-invalid' : ''} name='lastName' value={this.state.lastName} onChange={this.setVal} onBlur={this.checkVal}/>
+                </div>
+                <div className="p-field p-grid p-dir-col"> 
+                    <label htmlFor="eMail" className="p-d-block">Email</label>
+                    <InputText id="eMail" className={this.state.eMail ? 'p-invalid' : ''} name='email' value={this.state.email} onChange={this.setVal} onBlur={this.checkVal}/>
+                </div>
+                <div className="p-field p-grid p-dir-col"> 
+                    <label htmlFor="pword" className="p-d-block">Password</label>
+                    <Password id="pword" className={this.state.pword ? 'p-invalid' : ''} css={inputWidth} name='password' value={this.state.password} onChange={this.setVal} onBlur={this.checkVal} toggleMask/>
+                </div>
+                <div className="p-field p-text-right p-grid p-dir-col">                     
                     <Submit />
-                </form>
-            </div>
+                </div>
+            </form>       
         );
     }    
 }
