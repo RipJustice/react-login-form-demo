@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
@@ -48,6 +49,8 @@ class UserForm extends React.Component {
         this.checkVal = this.checkVal.bind(this);
     }
 
+    
+
     setVal(e) {       
         this.setState({
             [e.target.name]: e.target.value
@@ -55,11 +58,20 @@ class UserForm extends React.Component {
     }
 
     checkVal(e) {      
-        e.target.value === '' ? this.setState({[e.target.id]: true}) : this.setState({[e.target.id]: false});        
+        !e.target.value ? this.setState({[e.target.id]: true}) : this.setState({[e.target.id]: false});        
     }
 
     formSubmit(e) {
-        console.log(this.state);
+        if (this.state.firstName.length && this.state.lastName.length && this.state.email.length && this.state.password.length) {
+            this.props.history.push('/success')
+        } else {
+            for ( let i = 0; i < 4; i++ ) {
+                console.log(i);
+                if (!e.target[i].value) {
+                    this.setState({[e.target[i].id]: true})
+                }
+            }
+        }       
         e.preventDefault();
     }
     
@@ -91,4 +103,4 @@ class UserForm extends React.Component {
     }    
 }
   
-export default UserForm;
+export default withRouter(UserForm);
