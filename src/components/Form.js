@@ -41,7 +41,8 @@ class UserForm extends React.Component {
             fname: false,
             lname: false,
             eMail: false,
-            pword: false,        
+            pword: false,
+            success: false,        
         };
 
         this.setVal = this.setVal.bind(this);
@@ -67,7 +68,10 @@ class UserForm extends React.Component {
 
     formSubmit(e) {
         if (this.state.firstName.trim() && this.state.lastName.trim() && this.state.email.trim() && this.state.password.trim()) {
-            this.props.history.push('/success')
+            this.setState({
+                success: true
+            });           
+            this.props.history.push('/success');
         } else {
             for ( let i = 0; i < 4; i++ ) {        
                 if (!e.target[i].value) {
