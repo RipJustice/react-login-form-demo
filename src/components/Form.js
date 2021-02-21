@@ -75,7 +75,7 @@ class UserForm extends React.Component {
         } else {
             for ( let i = 0; i < 4; i++ ) {        
                 if (!e.target[i].value) {
-                    this.setState({[e.target[i].id]: true})
+                    this.setState({[e.target[i].id]: true});
                 }
             }
         }       
