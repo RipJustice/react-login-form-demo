@@ -1,4 +1,4 @@
-const Success = () => {
+function Success () {
     return (
         <div className="p-grid p-align-center  p-dir-col">
             <h1>Success!</h1>

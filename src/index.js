@@ -10,11 +10,12 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './index.css';
 
-// emulating page lazy load times for fun
+
 const parentContainer = css`
   height: calc(100vh - 16px);
   background: #f8f9fa;
 `
+// emulating page lazy load times for fun
 const Main = React.lazy(() => new Promise((resolve) => setTimeout(() => resolve(import('./pages/Main')), 1000)));
 const Success = React.lazy(() => new Promise((resolve) => setTimeout(() => resolve(import('./pages/Success')), 1000)));
 const Loading = () => { 
