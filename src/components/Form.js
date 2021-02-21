@@ -51,22 +51,25 @@ class UserForm extends React.Component {
 
     
 
-    setVal(e) {       
+    setVal(e) {        
+        if (e.target.value.trim() !== '' && this.state[e.target.id] === true) {
+            this.setState({[e.target.id]: false}); 
+        }  
+
         this.setState({
             [e.target.name]: e.target.value
         });       
     }
 
     checkVal(e) {      
-        !e.target.value ? this.setState({[e.target.id]: true}) : this.setState({[e.target.id]: false});        
+        !e.target.value.trim() ? this.setState({[e.target.id]: true}) : this.setState({[e.target.id]: false});        
     }
 
     formSubmit(e) {
-        if (this.state.firstName.length && this.state.lastName.length && this.state.email.length && this.state.password.length) {
+        if (this.state.firstName.trim() && this.state.lastName.trim() && this.state.email.trim() && this.state.password.trim()) {
             this.props.history.push('/success')
         } else {
-            for ( let i = 0; i < 4; i++ ) {
-                console.log(i);
+            for ( let i = 0; i < 4; i++ ) {        
                 if (!e.target[i].value) {
                     this.setState({[e.target[i].id]: true})
                 }
